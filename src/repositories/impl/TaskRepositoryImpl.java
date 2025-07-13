@@ -1,7 +1,9 @@
 package repositories.impl;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,7 +14,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import exceptions.FileCannotBeCreatedException;
+import exceptions.FileCannotBeReadException;
+import exceptions.FileCannotBeWrittenException;
+import exceptions.FileIsEmptyException;
+import exceptions.TaskException;
 import exceptions.TaskNotFoundException;
+import mapper.TaskMapper;
 import model.entities.Task;
 import model.enums.TaskStatus;
 import repositories.TaskRepository;
@@ -27,8 +35,19 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     @Override
     public Task save(Task task) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+        if(task == null) throw new TaskException("The task is null");
+        createDirectoryAndDatabaseFile();
+        task.setId(nextId());
+        String string = readDatabaseFile();
+        String json = TaskMapper.parseTaskToJson(task);
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(DATABASE_COMPLETE_PATH.toString()))) {
+            string = string.replace("]", ",").concat(json).concat("]");
+            System.out.println(string);
+            bw.write(string);
+        } catch(IOException e) {
+            throw new FileCannotBeWrittenException();
+        }
+        return new Task();
     }
 
     @Override
@@ -52,16 +71,16 @@ public class TaskRepositoryImpl implements TaskRepository {
     @Override
     public List<Task> findAll() {
         createDirectoryAndDatabaseFile();
+        String json = readDatabaseFile();
         List<Task> tasks = new ArrayList<>();
         Task task;
         List<Map<String, String>> tasksMap = new ArrayList<>();
         Map<String, String> map;
         try(BufferedReader br = new BufferedReader(new FileReader(DATABASE_COMPLETE_PATH.toString()))) {
-            String string = Files.readAllLines(DATABASE_COMPLETE_PATH).getFirst();
-            string = string.replace("[", "").replace("]", "")
+            json = json.replace("[", "").replace("]", "")
                 .replace("},{", "/").replace("{", "")
                 .replace("}", "").replace("\":\"", "=").replace("\"", "");
-            String[] tasksArray = string.split("/");
+            String[] tasksArray = json.split("/");
             String[] attributesArray;
             String key;
             String value;
@@ -80,8 +99,7 @@ public class TaskRepositoryImpl implements TaskRepository {
                 tasks.add(task);
             }
         } catch(IOException e) {
-            System.out.println("The file could not be read");
-            System.out.println(e.getMessage());
+            throw new FileCannotBeReadException();
         }
         return tasks;
     }
@@ -104,18 +122,29 @@ public class TaskRepositoryImpl implements TaskRepository {
         return tasks.stream().filter(e -> Objects.equals(e.getStatus(), TaskStatus.DONE)).toList();
     }
 
+    private String readDatabaseFile() {
+        String string = "";
+        try {
+            string = Files.readAllLines(DATABASE_COMPLETE_PATH).getFirst();
+        } catch(IOException e) {
+            throw new FileCannotBeReadException();
+        }
+        if(string == null) throw new FileIsEmptyException();
+        return string;
+    }
+
     private void createDirectoryAndDatabaseFile() {
         try {
             if(!Files.exists(DATABASE_PATH)) Files.createDirectories(DATABASE_PATH);
             if(!Files.exists(DATABASE_COMPLETE_PATH)) 
                 Files.createFile(DATABASE_COMPLETE_PATH);
         } catch(IOException e) {
-            System.out.println("The data file could not be created");
-            System.out.println(e.getMessage());
+            throw new FileCannotBeCreatedException();
         }
     }
 
     private Task createTask(Map<String, String> map) {
+        if(map == null) throw new TaskException("Map is null");
         return new Task(
             Long.parseLong(map.get("id")),
             map.get("description"),
@@ -123,6 +152,15 @@ public class TaskRepositoryImpl implements TaskRepository {
             LocalDateTime.parse(map.get("createdAt")),
             LocalDateTime.parse(map.get("updatedAt"))
         );
+    }
+
+    private long nextId() {
+        List<Task> tasks = findAll();
+        long id = tasks.getFirst().getId();
+        for(Task task : tasks) {
+            if(id < task.getId()) id = task.getId();
+        }
+        return ++id;
     }
     
 }
