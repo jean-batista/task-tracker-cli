@@ -5,8 +5,8 @@ import java.util.List;
 import model.entities.Task;
 
 public interface TaskRepository {
-    Task save(Task task);
-    Task update(Task task);
+    Task save(Task entity);
+    Task update(Task entity);
     void delete(Long id);
     Task findById(Long id);
     List<Task> findAll();

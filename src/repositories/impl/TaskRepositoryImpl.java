@@ -38,22 +38,25 @@ public class TaskRepositoryImpl implements TaskRepository {
         if(task == null) throw new TaskException("The task is null");
         createDirectoryAndDatabaseFile();
         task.setId(nextId());
-        String string = readDatabaseFile();
         String json = TaskMapper.parseTaskToJson(task);
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(DATABASE_COMPLETE_PATH.toString()))) {
-            string = string.replace("]", ",").concat(json).concat("]");
-            System.out.println(string);
-            bw.write(string);
-        } catch(IOException e) {
-            throw new FileCannotBeWrittenException();
-        }
-        return new Task();
+        String string = readDatabaseFile();
+        if(!string.isBlank()) string = string.replace("]", ",").concat(json).concat("]");
+        if(string.isBlank()) string = string.concat("[").concat(json).concat("]");
+        writeDatabaseFile(string);
+        return task;
     }
 
     @Override
-    public Task update(Task task) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    public Task update(Task entity) {
+        if(entity == null) throw new TaskException("The task is null");
+        List<Task> tasks = findAll();
+        Task task = findById(entity.getId());
+        tasks.set(tasks.indexOf(task), entity);
+        clearDatabaseFile();
+        for(Task t : tasks) {
+            save(t);
+        }
+        return entity;
     }
 
     @Override
@@ -71,8 +74,9 @@ public class TaskRepositoryImpl implements TaskRepository {
     @Override
     public List<Task> findAll() {
         createDirectoryAndDatabaseFile();
-        String json = readDatabaseFile();
         List<Task> tasks = new ArrayList<>();
+        String json = readDatabaseFile();
+        if(json.isBlank()) return tasks;
         Task task;
         List<Map<String, String>> tasksMap = new ArrayList<>();
         Map<String, String> map;
@@ -125,7 +129,8 @@ public class TaskRepositoryImpl implements TaskRepository {
     private String readDatabaseFile() {
         String string = "";
         try {
-            string = Files.readAllLines(DATABASE_COMPLETE_PATH).getFirst();
+            List<String> lines = Files.readAllLines(DATABASE_COMPLETE_PATH);
+            if(!lines.isEmpty()) string = lines.getFirst();
         } catch(IOException e) {
             throw new FileCannotBeReadException();
         }
@@ -156,11 +161,24 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     private long nextId() {
         List<Task> tasks = findAll();
+        if(tasks.isEmpty()) return 1L;
         long id = tasks.getFirst().getId();
         for(Task task : tasks) {
             if(id < task.getId()) id = task.getId();
         }
         return ++id;
+    }
+
+    private void writeDatabaseFile(String string) {
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(DATABASE_COMPLETE_PATH.toString()))) {
+            bw.write(string);
+        } catch(IOException e) {
+            throw new FileCannotBeWrittenException();
+        }
+    }
+
+    private void clearDatabaseFile() {
+        writeDatabaseFile("");
     }
     
 }

@@ -39,8 +39,16 @@ public class App {
         //     System.out.println(t);
         // }
 
-        Task task = new Task(null, "Test10", TaskStatus.IN_PROGRESS, LocalDateTime.now(), LocalDateTime.now());
-        repository.save(task);
+        // Task task = new Task(null, "Test10", TaskStatus.IN_PROGRESS, LocalDateTime.now(), LocalDateTime.now());
+        // repository.save(task);
 
+        // Task task = repository.findById(1L);
+        repository.update(new Task(3L, "Test4", TaskStatus.TODO, LocalDateTime.now(), LocalDateTime.now()));
+
+        List<Task> list = repository.findAll();
+
+        for(Task task : list) {
+            System.out.println(task);
+        }
     }
 }
