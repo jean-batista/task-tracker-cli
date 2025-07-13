@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 import exceptions.FileCannotBeCreatedException;
 import exceptions.FileCannotBeReadException;
@@ -38,11 +39,7 @@ public class TaskRepositoryImpl implements TaskRepository {
         if(task == null) throw new TaskException("The task is null");
         createDirectoryAndDatabaseFile();
         task.setId(nextId());
-        String json = TaskMapper.parseTaskToJson(task);
-        String string = readDatabaseFile();
-        if(!string.isBlank()) string = string.replace("]", ",").concat(json).concat("]");
-        if(string.isBlank()) string = string.concat("[").concat(json).concat("]");
-        writeDatabaseFile(string);
+        writeDatabaseFile(task);
         return task;
     }
 
@@ -50,25 +47,30 @@ public class TaskRepositoryImpl implements TaskRepository {
     public Task update(Task entity) {
         if(entity == null) throw new TaskException("The task is null");
         List<Task> tasks = findAll();
-        Task task = findById(entity.getId());
+        Task task = findById(entity.getId()).orElseThrow(TaskNotFoundException::new);
         tasks.set(tasks.indexOf(task), entity);
         clearDatabaseFile();
         for(Task t : tasks) {
-            save(t);
+            writeDatabaseFile(t);
         }
         return entity;
     }
 
     @Override
     public void delete(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        List<Task> tasks = findAll();
+        Task task = findById(id).orElseThrow(TaskNotFoundException::new);
+        tasks.remove(task);
+        clearDatabaseFile();
+        for(Task t : tasks) {
+            writeDatabaseFile(t);
+        }
     }
 
     @Override
-    public Task findById(Long id) {
+    public Optional<Task> findById(Long id) {
         List<Task> tasks = findAll();
-        return tasks.stream().filter(e -> Objects.equals(e.getId(), id)).findFirst().orElseThrow(TaskNotFoundException::new);
+        return tasks.stream().filter(e -> Objects.equals(e.getId(), id)).findFirst();
     }
 
     @Override
@@ -169,7 +171,11 @@ public class TaskRepositoryImpl implements TaskRepository {
         return ++id;
     }
 
-    private void writeDatabaseFile(String string) {
+    private void writeDatabaseFile(Task task) {
+        String json = TaskMapper.parseTaskToJson(task);
+        String string = readDatabaseFile();
+        if(!string.isBlank()) string = string.replace("]", ",").concat(json).concat("]");
+        if(string.isBlank()) string = string.concat("[").concat(json).concat("]");
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(DATABASE_COMPLETE_PATH.toString()))) {
             bw.write(string);
         } catch(IOException e) {
@@ -178,7 +184,11 @@ public class TaskRepositoryImpl implements TaskRepository {
     }
 
     private void clearDatabaseFile() {
-        writeDatabaseFile("");
+        try(BufferedWriter bw = new BufferedWriter(new FileWriter(DATABASE_COMPLETE_PATH.toString()))) {
+            bw.write("");
+        } catch(IOException e) {
+            throw new FileCannotBeWrittenException();
+        }
     }
     
 }
