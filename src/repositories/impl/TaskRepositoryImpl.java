@@ -94,8 +94,8 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     @Override
     public List<Task> findAllTasksInProgress() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAllTasksInProgress'");
+        List<Task> tasks = findAll();
+        return tasks.stream().filter(e -> Objects.equals(e.getStatus(), TaskStatus.IN_PROGRESS)).toList();
     }
 
     @Override

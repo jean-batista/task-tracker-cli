@@ -19,9 +19,15 @@ public class App {
         // Task task = repository.findById(2L);
         // System.out.println(task);
 
-        List<Task> tasksTodo = repository.findAllTasksTodo();
+        // List<Task> tasksTodo = repository.findAllTasksTodo();
 
-        for(Task t : tasksTodo) {
+        // for(Task t : tasksTodo) {
+        //     System.out.println(t);
+        // }
+
+        List<Task> tasksInProgress = repository.findAllTasksInProgress();
+
+        for(Task t : tasksInProgress) {
             System.out.println(t);
         }
     }
