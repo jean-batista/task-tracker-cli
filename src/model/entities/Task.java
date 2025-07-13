@@ -2,7 +2,7 @@ package model.entities;
 
 import java.time.LocalDateTime;
 
-import model.enuns.TaskStatus;
+import model.enums.TaskStatus;
 
 public class Task {
     

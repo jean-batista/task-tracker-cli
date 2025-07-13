@@ -1,4 +1,4 @@
-package model.enuns;
+package model.enums;
 
 public enum TaskStatus {
     
