@@ -25,9 +25,15 @@ public class App {
         //     System.out.println(t);
         // }
 
-        List<Task> tasksInProgress = repository.findAllTasksInProgress();
+        // List<Task> tasksInProgress = repository.findAllTasksInProgress();
 
-        for(Task t : tasksInProgress) {
+        // for(Task t : tasksInProgress) {
+        //     System.out.println(t);
+        // }
+
+        List<Task> tasksDone = repository.findAllTasksDone();
+
+        for(Task t : tasksDone) {
             System.out.println(t);
         }
     }

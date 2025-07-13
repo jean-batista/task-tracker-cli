@@ -100,8 +100,8 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     @Override
     public List<Task> findAllTasksDone() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAllTasksDone'");
+        List<Task> tasks = findAll();
+        return tasks.stream().filter(e -> Objects.equals(e.getStatus(), TaskStatus.DONE)).toList();
     }
 
     private void createDirectoryAndDatabaseFile() {
