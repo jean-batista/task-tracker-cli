@@ -1,13 +1,17 @@
 package application;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 import model.entities.Task;
-import model.enums.TaskStatus;
+import repositories.TaskRepository;
+import repositories.impl.TaskRepositoryImpl;
 
 public class App {
-    public static void main(String[] args) throws Exception {
-        Task task = new Task(null, "Test", TaskStatus.TODO, LocalDateTime.now(), LocalDateTime.now());
-        System.out.println(task);
+    public static void main(String[] args) {
+        TaskRepository repository = new TaskRepositoryImpl();
+        List<Task> tasks = repository.findAll();
+        for(Task task : tasks) {
+            System.out.println(task);
+        }
     }
 }
