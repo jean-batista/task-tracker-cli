@@ -8,7 +8,7 @@ public interface TaskRepository {
     Task save(Task task);
     Task update(Task task);
     void delete(Long id);
-    Task findById();
+    Task findById(Long id);
     List<Task> findAll();
     List<Task> findAllTasksTodo();
     List<Task> findAllTasksInProgress();

@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
+import exceptions.TaskNotFoundException;
 import model.entities.Task;
 import model.enums.TaskStatus;
 import repositories.TaskRepository;
@@ -42,9 +44,9 @@ public class TaskRepositoryImpl implements TaskRepository {
     }
 
     @Override
-    public Task findById() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+    public Task findById(Long id) {
+        List<Task> tasks = findAll();
+        return tasks.stream().filter(e -> Objects.equals(e.getId(), id)).findFirst().orElseThrow(TaskNotFoundException::new);
     }
 
     @Override
@@ -53,7 +55,7 @@ public class TaskRepositoryImpl implements TaskRepository {
         List<Task> tasks = new ArrayList<>();
         Task task;
         List<Map<String, String>> tasksMap = new ArrayList<>();
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map;
         try(BufferedReader br = new BufferedReader(new FileReader(DATABASE_COMPLETE_PATH.toString()))) {
             String string = Files.readAllLines(DATABASE_COMPLETE_PATH).getFirst();
             string = string.replace("[", "").replace("]", "")
@@ -64,6 +66,7 @@ public class TaskRepositoryImpl implements TaskRepository {
             String key;
             String value;
             for(int i = 0; i < tasksArray.length; i++) {
+                map = new HashMap<>();
                 attributesArray = tasksArray[i].split(",");
                 for(int j = 0; j < attributesArray.length; j++) {
                     key = attributesArray[j].split("=")[0];
@@ -77,7 +80,7 @@ public class TaskRepositoryImpl implements TaskRepository {
                 tasks.add(task);
             }
         } catch(IOException e) {
-            System.out.println("Nao foi possivel ler o arquivo");
+            System.out.println("The file could not be read");
             System.out.println(e.getMessage());
         }
         return tasks;
@@ -107,7 +110,7 @@ public class TaskRepositoryImpl implements TaskRepository {
             if(!Files.exists(DATABASE_COMPLETE_PATH)) 
                 Files.createFile(DATABASE_COMPLETE_PATH);
         } catch(IOException e) {
-            System.out.println("Nao foi possivel criar o banco de dados!");
+            System.out.println("The data file could not be created");
             System.out.println(e.getMessage());
         }
     }

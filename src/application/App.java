@@ -9,9 +9,14 @@ import repositories.impl.TaskRepositoryImpl;
 public class App {
     public static void main(String[] args) {
         TaskRepository repository = new TaskRepositoryImpl();
+
         List<Task> tasks = repository.findAll();
-        for(Task task : tasks) {
-            System.out.println(task);
+
+        for(Task t : tasks) {
+            System.out.println(t);
         }
+
+        Task task = repository.findById(2L);
+        System.out.println(task);
     }
 }
