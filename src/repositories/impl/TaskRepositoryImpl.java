@@ -88,8 +88,8 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     @Override
     public List<Task> findAllTasksTodo() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAllTasksTodo'");
+        List<Task> tasks = findAll();
+        return tasks.stream().filter(e -> Objects.equals(e.getStatus(), TaskStatus.TODO)).toList();
     }
 
     @Override

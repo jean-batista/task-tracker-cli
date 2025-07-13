@@ -16,7 +16,13 @@ public class App {
             System.out.println(t);
         }
 
-        Task task = repository.findById(2L);
-        System.out.println(task);
+        // Task task = repository.findById(2L);
+        // System.out.println(task);
+
+        List<Task> tasksTodo = repository.findAllTasksTodo();
+
+        for(Task t : tasksTodo) {
+            System.out.println(t);
+        }
     }
 }
