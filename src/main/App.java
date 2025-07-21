@@ -1,59 +1,56 @@
 package main;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-import main.mapper.TaskMapper;
+import main.config.AppConfig;
 import main.model.entities.Task;
 import main.model.enums.TaskStatus;
-import main.repositories.TaskRepository;
-import main.repositories.impl.TaskRepositoryImpl;
-import main.utils.FileUtils;
+import main.services.TaskService;
 
 public class App {
     public static void main(String[] args) {
-        FileUtils fileUtils = new FileUtils();
-        TaskRepository repository = new TaskRepositoryImpl(fileUtils);
+  
+        AppConfig config = new AppConfig();
+        TaskService service = config.createTaskService(); 
 
-        // List<Task> tasks = repository.findAll();
+        // List<Task> tasks = service.findAll();
         // for(Task t : tasks) {
         //     System.out.println(t);
         // }
 
-        // Task task = repository.findById(5L).orElseThrow();
+        // Task task = service.findById(1L);
         // System.out.println(task);
 
-        // List<Task> tasksTodo = repository.findAllTasksTodo();
+        // List<Task> tasksTodo = service.findAllTasksTodo();
 
         // for(Task t : tasksTodo) {
         //     System.out.println(t);
         // }
 
-        // List<Task> tasksInProgress = repository.findAllTasksInProgress();
-
+        // List<Task> tasksInProgress = service.findAllTasksInProgress();
         // for(Task t : tasksInProgress) {
         //     System.out.println(t);
         // }
 
-        // List<Task> tasksDone = repository.findAllTasksDone();
-
+        // List<Task> tasksDone = service.findAllTasksDone();
         // for(Task t : tasksDone) {
         //     System.out.println(t);
         // }
 
-        // Task task = new Task(null, "Test6", TaskStatus.DONE, LocalDateTime.now(), LocalDateTime.now());
-        // repository.save(task);
+        // Task task = new Task(null, "Test6", TaskStatus.DONE, null, null);
+        // Task newTask = service.save(task);
+        // System.out.println(newTask);
 
-        // Task task = repository.findById(6L).orElseThrow();
-        // repository.update(new Task(6L, "Custom task 5432", TaskStatus.DONE, LocalDateTime.now(), LocalDateTime.now()));
-        // task = repository.findById(6L).orElseThrow();
+        // Task task = service.findById(1L);
+        // service.update(new Task(1L, "Custom task", TaskStatus.IN_PROGRESS, null, null));
+        // Task updatedTask = service.findById(1L);
         // System.out.println(task);
+        // System.out.println(updatedTask);
 
-        // repository.delete(4L);
-
-        // for(Task t : repository.findAll()) {
-        //     System.out.println(t);
-        // }
+        service.delete(2L);
+        for(Task task : service.findAll()) {
+            System.out.println(task);
+        }
 
     }
 }
