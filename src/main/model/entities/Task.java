@@ -1,8 +1,9 @@
-package model.entities;
+package main.model.entities;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-import model.enums.TaskStatus;
+import main.model.enums.TaskStatus;
 
 public class Task {
     
@@ -90,12 +91,13 @@ public class Task {
 
     @Override
     public String toString() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
         StringBuilder sb = new StringBuilder();
         sb.append("Task id: ").append(this.id).append("\n");
         sb.append("Task description: ").append(this.description).append("\n");
         sb.append("Task status: ").append(this.status).append("\n");
-        sb.append("created at: ").append(this.createdAt).append("\n");
-        sb.append("updated at: ").append(this.updatedAt).append("\n");
+        sb.append("created at: ").append(dtf.format(createdAt)).append("\n");
+        sb.append("updated at: ").append(dtf.format(updatedAt)).append("\n");
         return sb.toString();
     }
 

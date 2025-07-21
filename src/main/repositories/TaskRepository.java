@@ -1,9 +1,9 @@
-package repositories;
+package main.repositories;
 
 import java.util.List;
 import java.util.Optional;
 
-import model.entities.Task;
+import main.model.entities.Task;
 
 public interface TaskRepository {
     Task save(Task entity);

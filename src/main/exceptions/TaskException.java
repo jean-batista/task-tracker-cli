@@ -1,4 +1,4 @@
-package exceptions;
+package main.exceptions;
 
 public class TaskException extends RuntimeException {
     public TaskException(String message) {
