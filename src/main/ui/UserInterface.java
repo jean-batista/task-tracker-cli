@@ -87,7 +87,9 @@ public class UserInterface {
                     controller.findAllTasksTodo().forEach(System.out::println);
                     break;
                 case 7:
-                    System.out.println("Not implemented");
+                    System.out.println("Todas as tarefas em progresso: ");
+                    System.out.println();
+                    controller.findAllTasksInProgress().forEach(System.out::println);
                     break;
                 case 8:
                     System.out.println("Not implemented");
