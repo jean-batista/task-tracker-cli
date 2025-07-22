@@ -77,7 +77,9 @@ public class UserInterface {
                     System.out.print(task);
                     break;
                 case 5:
-                    System.out.println("Not implemented");
+                    System.out.println("Todas as tarefas cadastradas: ");
+                    System.out.println();
+                    controller.findAllTasks().forEach(System.out::println);
                     break;
                 case 6:
                     System.out.println("Not implemented");
