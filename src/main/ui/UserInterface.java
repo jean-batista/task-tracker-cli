@@ -92,7 +92,9 @@ public class UserInterface {
                     controller.findAllTasksInProgress().forEach(System.out::println);
                     break;
                 case 8:
-                    System.out.println("Not implemented");
+                    System.out.println("Todas as tarefas concluídas");
+                    System.out.println();
+                    controller.findAllTasksDone().forEach(System.out::println);
                     break;
                 default:
                     if(option != 0) System.out.println("Entrada inválida, tente novamente");
