@@ -65,7 +65,11 @@ public class UserInterface {
                     System.out.println();
                     break;
                 case 3:
-                    System.out.println("Not implemented");
+                    System.out.print("Digite o id da tarefa: ");
+                    controller.deleteTask(input.nextLong());
+                    System.out.println();
+                    System.out.println("Tarefa excluida com sucesso!");
+                    System.out.println();
                     break;
                 case 4:
                     System.out.println("Not implemented");
