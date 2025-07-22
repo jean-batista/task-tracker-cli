@@ -82,7 +82,9 @@ public class UserInterface {
                     controller.findAllTasks().forEach(System.out::println);
                     break;
                 case 6:
-                    System.out.println("Not implemented");
+                    System.out.println("Todas as tarefas a fazer: ");
+                    System.out.println();
+                    controller.findAllTasksTodo().forEach(System.out::println);
                     break;
                 case 7:
                     System.out.println("Not implemented");
