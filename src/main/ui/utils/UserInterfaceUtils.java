@@ -12,13 +12,15 @@ public class UserInterfaceUtils {
         System.out.println("Opção 06: Buscar todas as tarefas a fazer");
         System.out.println("Opção 07: Bucas todas as tarefas em progresso");
         System.out.println("Opção 08: Buscar todas as tarefas concluídas");
+        System.out.println();
         System.out.print("Opção: ");
     }
-
+    
     public void taskStatusMenu() {
         System.out.println("Opção 01: A fazer");
         System.out.println("Opção 02: Em progresso");
         System.out.println("Opção 03: Concluído");
+        System.out.println();
         System.out.print("Opção: ");
     }
 

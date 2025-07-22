@@ -47,7 +47,6 @@ public class UserInterface {
                     System.out.println();
                     System.out.println(task);
                     System.out.println("Tarefa criada com sucesso!");
-                    System.out.println();
                     break;
                 case 2:
                     System.out.print("Digite o id da tarefa: ");
@@ -62,17 +61,20 @@ public class UserInterface {
                     System.out.println();
                     System.out.println(task);
                     System.out.println("Tarefa atualizada com sucesso!");
-                    System.out.println();
                     break;
                 case 3:
                     System.out.print("Digite o id da tarefa: ");
                     controller.deleteTask(input.nextLong());
+                    scannerUtils.clearBuffer(input);
                     System.out.println();
                     System.out.println("Tarefa excluida com sucesso!");
-                    System.out.println();
                     break;
-                case 4:
-                    System.out.println("Not implemented");
+                    case 4:
+                    System.out.print("Digite o id da tarefa: ");
+                    task = controller.findTaskById(input.nextLong());
+                    scannerUtils.clearBuffer(input);
+                    System.out.println();
+                    System.out.print(task);
                     break;
                 case 5:
                     System.out.println("Not implemented");
@@ -90,6 +92,7 @@ public class UserInterface {
                     if(option != 0) System.out.println("Entrada inválida, tente novamente");
                     System.out.println();
             }
+            System.out.println();
         }
 
         input.close();
