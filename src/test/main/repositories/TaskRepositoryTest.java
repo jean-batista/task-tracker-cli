@@ -174,7 +174,33 @@ public class TaskRepositoryTest {
     }
 
     public void findAllInProgress() {
-        System.out.println("testFindAllInProgressMethod is not implemented");
+        beforeEach();
+
+        List<Task> list = utils.createTaskList(9, "test");
+
+        for(Task created : list) {
+            task = repository.save(created);
+
+            assertNotNull(created);
+            assertNotNull(created.getId());
+            assertNotNull(created.getDescription());
+            assertNotNull(created.getStatus());
+            assertNotNull(created.getCreatedAt());
+            assertNotNull(created.getUpdatedAt());
+        }
+
+        list = repository.findAllTasksInProgress();
+
+        for(Task finded : list) {
+            assertNotNull(finded);
+            assertNotNull(finded.getId());
+            assertNotNull(finded.getDescription());
+            assertNotNull(finded.getStatus());
+            assertNotNull(finded.getCreatedAt());
+            assertNotNull(finded.getUpdatedAt());
+        }
+
+        System.out.println("TaskRepository findAllInProgress method is ok");
     }
 
     public void findAllDone() {
