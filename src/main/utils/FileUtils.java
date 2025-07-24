@@ -25,6 +25,12 @@ public class FileUtils {
         this.DATABASE_NAME = "database.json";
         this.DATABASE_COMPLETE_PATH = Path.of(DATABASE_PATH + "/" + DATABASE_NAME);
     }
+
+    public FileUtils(String DATABASE_PATH, String DATABASE_NAME) {
+        this.DATABASE_PATH = Path.of(DATABASE_PATH);
+        this.DATABASE_NAME = DATABASE_NAME;
+        this.DATABASE_COMPLETE_PATH = Path.of(DATABASE_PATH + "/" + DATABASE_NAME);
+    }
     
     public String readDatabaseFile() {
         String string = "";
