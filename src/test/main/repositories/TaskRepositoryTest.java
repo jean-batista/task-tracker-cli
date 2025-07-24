@@ -144,7 +144,33 @@ public class TaskRepositoryTest {
     }
 
     public void findAllTodo() {
-        System.out.println("testFindAllTodoMethod is not implemented");
+        beforeEach();
+
+        List<Task> list = utils.createTaskList(9, "test");
+
+        for(Task created : list) {
+            task = repository.save(created);
+
+            assertNotNull(created);
+            assertNotNull(created.getId());
+            assertNotNull(created.getDescription());
+            assertNotNull(created.getStatus());
+            assertNotNull(created.getCreatedAt());
+            assertNotNull(created.getUpdatedAt());
+        }
+
+        list = repository.findAllTasksTodo();
+
+        for(Task finded : list) {
+            assertNotNull(finded);
+            assertNotNull(finded.getId());
+            assertNotNull(finded.getDescription());
+            assertNotNull(finded.getStatus());
+            assertNotNull(finded.getCreatedAt());
+            assertNotNull(finded.getUpdatedAt());
+        }
+
+        System.out.println("TaskRepository findAllTodo method is ok");
     }
 
     public void findAllInProgress() {
