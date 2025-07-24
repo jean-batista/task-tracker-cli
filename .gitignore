@@ -28,3 +28,7 @@ replay_pid*
 
 # bin
 bin/
+
+# databasefile
+src/resources/
+src/test/resources/

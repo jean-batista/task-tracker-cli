@@ -11,14 +11,14 @@ public class TaskRepositoryTestRunner {
     }
 
     public void run() {
-        taskRepositoryTest.testSaveMethod();
-        taskRepositoryTest.testUpdateMethod();
-        taskRepositoryTest.testDeleteMethod();
-        taskRepositoryTest.testFindByIdMethod();
-        taskRepositoryTest.testFindAllMethod();
-        taskRepositoryTest.testFindAllTodoMethod();
-        taskRepositoryTest.testFindAllInProgressMethod();
-        taskRepositoryTest.testFindAllDoneMethod();
+        taskRepositoryTest.save();
+        taskRepositoryTest.update();
+        taskRepositoryTest.delete();
+        taskRepositoryTest.findById();
+        taskRepositoryTest.findAll();
+        taskRepositoryTest.findAllTodo();
+        taskRepositoryTest.findAllInProgress();
+        taskRepositoryTest.findAllDone();
     }
 
 }
