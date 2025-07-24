@@ -18,7 +18,7 @@ public class TestAssertions {
         if(Objects.equals(value, object)) error(value, object, "Equal values");
     }
 
-    private static void error(Object actual, Object expected, String message) {
+    private static void error(Object expected, Object actual, String message) {
         System.out.println("Actual: " + actual);
         System.out.println("Expected: " + expected);
         throw new AssertionErrorException(message);

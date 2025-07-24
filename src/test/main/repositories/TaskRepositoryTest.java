@@ -2,6 +2,7 @@ package test.main.repositories;
 
 import static test.main.assertions.TestAssertions.*;
 
+import main.exceptions.TaskNotFoundException;
 import main.model.entities.Task;
 import main.model.enums.TaskStatus;
 import main.repositories.TaskRepository;
@@ -75,12 +76,38 @@ public class TaskRepositoryTest {
         System.out.println("TaskRepository update method is ok");
     }
 
-    public void delete() {
-        System.out.println("testDeleteMethod is not implemented");
+    public void findById() {
+        beforeEach();
+
+        Task created = repository.save(task);
+
+        assertNotNull(created);
+        assertNotNull(created.getId());
+        assertNotNull(created.getDescription());
+        assertNotNull(created.getStatus());
+        assertNotNull(created.getCreatedAt());
+        assertNotNull(created.getUpdatedAt());
+
+        Task finded = repository.findById(created.getId()).orElseThrow(TaskNotFoundException::new);
+
+        assertNotNull(finded);
+        assertNotNull(finded.getId());
+        assertNotNull(finded.getDescription());
+        assertNotNull(finded.getStatus());
+        assertNotNull(finded.getCreatedAt());
+        assertNotNull(finded.getUpdatedAt());
+
+        assertEquals(created.getId(), finded.getId());
+        assertEquals(created.getDescription(), finded.getDescription());
+        assertEquals(created.getStatus(), finded.getStatus());
+        assertEquals(created.getCreatedAt(), finded.getCreatedAt());
+        assertEquals(created.getUpdatedAt(), finded.getUpdatedAt());
+
+        System.out.println("TaskRepository findById method is ok");
     }
 
-    public void findById() {
-        System.out.println("testFindByIdMethod is not implemented");
+    public void delete() {
+        System.out.println("testDeleteMethod is not implemented");
     }
 
     public void findAll() {
