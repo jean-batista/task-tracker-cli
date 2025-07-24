@@ -2,6 +2,8 @@ package test.main.repositories;
 
 import static test.main.assertions.TestAssertions.*;
 
+import java.util.List;
+
 import main.exceptions.TaskNotFoundException;
 import main.model.entities.Task;
 import main.model.enums.TaskStatus;
@@ -57,7 +59,9 @@ public class TaskRepositoryTest {
         assertNotNull(created.getUpdatedAt());
 
         utils.sleep(2000);
-        Task updated = repository.update(utils.createTaskEntity(created.getId(), "test01-updated", TaskStatus.IN_PROGRESS));
+        Task updated = repository.update(
+            new Task(created.getId(), "test01-updated", TaskStatus.IN_PROGRESS, null, null)
+        );
 
         assertNotNull(updated);
         assertNotNull(updated.getId());
@@ -106,12 +110,37 @@ public class TaskRepositoryTest {
         System.out.println("TaskRepository findById method is ok");
     }
 
-    public void delete() {
-        System.out.println("testDeleteMethod is not implemented");
-    }
-
     public void findAll() {
-        System.out.println("testFindAllMethod is not implemented");
+        beforeEach();
+
+        List<Task> list = utils.createTaskList(9, "test");
+
+        for(Task created : list) {
+            task = repository.save(created);
+
+            assertNotNull(created);
+            assertNotNull(created.getId());
+            assertNotNull(created.getDescription());
+            assertNotNull(created.getStatus());
+            assertNotNull(created.getCreatedAt());
+            assertNotNull(created.getUpdatedAt());
+        }
+
+        list = repository.findAll();
+
+        for(int i = 0; i < list.size(); i++) {
+            assertNotNull(list.get(i));
+            assertNotNull(list.get(i).getId());
+            assertNotNull(list.get(i).getDescription());
+            assertNotNull(list.get(i).getStatus());
+            assertNotNull(list.get(i).getCreatedAt());
+            assertNotNull(list.get(i).getUpdatedAt());
+
+            assertEquals(Long.valueOf(i + 1), list.get(i).getId());
+            assertEquals("test" + (i + 1), list.get(i).getDescription());
+        }
+
+        System.out.println("TaskRepository findAll method is ok");
     }
 
     public void findAllTodo() {
@@ -124,6 +153,10 @@ public class TaskRepositoryTest {
 
     public void findAllDone() {
         System.out.println("testFindAllDoneMethod is not implemented");
+    }
+
+    public void delete() {
+        System.out.println("testDeleteMethod is not implemented");
     }
 
 }

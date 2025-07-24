@@ -1,6 +1,8 @@
 package test.main.utils;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import main.model.entities.Task;
 import main.model.enums.TaskStatus;
@@ -12,14 +14,16 @@ public class TestUtils {
         file.delete();
     }
 
-    public Task createTaskEntity(Long id, String description, TaskStatus status) {
-        return new Task(
-            id,
-            description,
-            status,
-            null,
-            null
-        );
+    public List<Task> createTaskList(int quantity, String description) {
+        Task task;
+        List<Task> list = new ArrayList<>();
+        int random;
+        for(int i = 1; i <= quantity; i++) {
+            random = (int) (Math.random() * 3) + 1;
+            task = new Task(Long.valueOf(i), description + i, TaskStatus.fromCode(random), null, null);
+            list.add(task);
+        }
+        return list;
     }
 
     public void sleep(int millis) {
