@@ -18,6 +18,10 @@ public class TestAssertions {
         if(Objects.equals(value, object)) error(value, object, "Equal values");
     }
 
+    public static void assertTrue(boolean condiction) {
+        if(!condiction) throw new AssertionErrorException("Condition is false");
+    }
+
     private static void error(Object expected, Object actual, String message) {
         System.out.println("Actual: " + actual);
         System.out.println("Expected: " + expected);

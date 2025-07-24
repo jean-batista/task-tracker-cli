@@ -240,7 +240,40 @@ public class TaskRepositoryTest {
     }
 
     public void delete() {
-        System.out.println("testDeleteMethod is not implemented");
+        beforeEach();
+
+        Task created = repository.save(task);
+
+        assertNotNull(created);
+        assertNotNull(created.getId());
+        assertNotNull(created.getDescription());
+        assertNotNull(created.getStatus());
+        assertNotNull(created.getCreatedAt());
+        assertNotNull(created.getUpdatedAt());
+
+        List<Task> list = repository.findAll();
+
+        assertNotNull(list);
+        assertTrue(list.size() > 0);
+
+        for(Task finded : list) {
+            assertNotNull(finded);
+            assertNotNull(finded.getId());
+            assertNotNull(finded.getDescription());
+            assertNotNull(finded.getStatus());
+            assertNotNull(finded.getCreatedAt());
+            assertNotNull(finded.getUpdatedAt());
+        }
+
+        repository.delete(1L);
+
+        list = repository.findAll();
+
+        assertNotNull(list);
+
+        assertTrue(list.size() == 0);
+
+        System.out.println("TaskRepository delete method is ok");
     }
 
 }
