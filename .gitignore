@@ -28,3 +28,6 @@ replay_pid*
 
 # bin
 bin/
+
+# Database files
+src/resources/database/

@@ -96,8 +96,8 @@ public class Task {
         sb.append("Task id: ").append(this.id).append("\n");
         sb.append("Task description: ").append(this.description).append("\n");
         sb.append("Task status: ").append(this.status).append("\n");
-        sb.append("created at: ").append(dtf.format(createdAt)).append("\n");
-        sb.append("updated at: ").append(dtf.format(updatedAt)).append("\n");
+        sb.append("Created at: ").append(dtf.format(createdAt)).append("\n");
+        sb.append("Updated at: ").append(dtf.format(updatedAt)).append("\n");
         return sb.toString();
     }
 

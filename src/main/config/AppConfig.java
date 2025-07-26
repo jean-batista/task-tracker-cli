@@ -5,6 +5,7 @@ import main.repositories.TaskRepository;
 import main.repositories.impl.TaskRepositoryImpl;
 import main.services.TaskService;
 import main.services.impl.TaskServiceImpl;
+import main.ui.UiTemplateBuilder;
 import main.ui.UserInterface;
 import main.utils.FileUtils;
 
@@ -15,7 +16,8 @@ public class AppConfig {
         TaskRepository repository = new TaskRepositoryImpl(fileUtils);
         TaskService service = new TaskServiceImpl(repository);
         TaskController controller = new TaskController(service);
-        return new UserInterface(controller);
+        UiTemplateBuilder builder = new UiTemplateBuilderConfig().createUiTemplateBuilder();
+        return new UserInterface(controller, builder);
     }
 
 }
