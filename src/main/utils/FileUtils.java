@@ -10,7 +10,6 @@ import java.util.List;
 import main.exceptions.FileCannotBeCreatedException;
 import main.exceptions.FileCannotBeReadException;
 import main.exceptions.FileCannotBeWrittenException;
-import main.exceptions.FileIsEmptyException;
 import main.mapper.TaskMapper;
 import main.model.entities.Task;
 
@@ -26,6 +25,12 @@ public class FileUtils {
         this.DATABASE_COMPLETE_PATH = Path.of(DATABASE_PATH + "/" + DATABASE_NAME);
     }
 
+    public FileUtils(String DATABASE_PATH, String DATABASE_NAME) {
+        this.DATABASE_PATH = Path.of(DATABASE_PATH);
+        this.DATABASE_NAME = DATABASE_NAME;
+        this.DATABASE_COMPLETE_PATH = Path.of(DATABASE_PATH + "/" + DATABASE_NAME);
+    }
+    
     public String readDatabaseFile() {
         String string = "";
         try {
@@ -38,7 +43,6 @@ public class FileUtils {
         } catch(IOException e) {
             throw new FileCannotBeReadException();
         }
-        if(string.isEmpty()) throw new FileIsEmptyException();
         return string;
     }
 

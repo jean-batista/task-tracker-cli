@@ -1,5 +1,6 @@
 package main.ui;
 
+import java.util.List;
 import java.util.Scanner;
 
 import main.controller.TaskController;
@@ -28,6 +29,8 @@ public class UserInterface {
 
         int option = -1;
         Task task;
+        List<Task> list;
+        String noTasks = "Nenhuma tarefa encontrada";
 
         System.out.println(title);
 
@@ -71,7 +74,7 @@ public class UserInterface {
                     System.out.println();
                     System.out.println("Tarefa excluida com sucesso!");
                     break;
-                    case 4:
+                case 4:
                     System.out.print("Digite o id da tarefa: ");
                     task = controller.findTaskById(input.nextLong());
                     scannerUtils.clearBuffer(input);
@@ -81,22 +84,42 @@ public class UserInterface {
                 case 5:
                     System.out.println("Todas as tarefas cadastradas: ");
                     System.out.println();
-                    controller.findAllTasks().forEach(System.out::println);
+                    list = controller.findAllTasks();
+                    if(list.isEmpty()) {
+                        System.out.println(noTasks);
+                        break;
+                    }
+                    list.forEach(System.out::println);
                     break;
                 case 6:
                     System.out.println("Todas as tarefas a fazer: ");
                     System.out.println();
-                    controller.findAllTasksTodo().forEach(System.out::print);
+                    list = controller.findAllTasksTodo();
+                    if(list.isEmpty()) {
+                        System.out.println(noTasks);
+                        break;
+                    }
+                    list.forEach(System.out::print);
                     break;
                 case 7:
                     System.out.println("Todas as tarefas em progresso: ");
                     System.out.println();
-                    controller.findAllTasksInProgress().forEach(System.out::print);
+                    list = controller.findAllTasksInProgress();
+                    if(list.isEmpty()) {
+                        System.out.println(noTasks);
+                        break;
+                    }
+                    list.forEach(System.out::print);
                     break;
                 case 8:
                     System.out.println("Todas as tarefas concluídas");
                     System.out.println();
-                    controller.findAllTasksDone().forEach(System.out::print);
+                    list = controller.findAllTasksDone();
+                    if(list.isEmpty()) {
+                        System.out.println(noTasks);
+                        break;
+                    }
+                    list.forEach(System.out::print);
                     break;
                 default:
                     if(option != 0) System.out.println("Entrada inválida, tente novamente");
