@@ -25,16 +25,20 @@ public class FileUtils {
         this.DATABASE_NAME = "database.json";
         this.DATABASE_COMPLETE_PATH = Path.of(DATABASE_PATH + "/" + DATABASE_NAME);
     }
-    
+
     public String readDatabaseFile() {
         String string = "";
         try {
             List<String> lines = Files.readAllLines(DATABASE_COMPLETE_PATH);
-            if(!lines.isEmpty()) string = lines.getFirst();
+            if(!lines.isEmpty()) {
+                for(String line : lines) {
+                    string += line.replace(" ", "");
+                }
+            }
         } catch(IOException e) {
             throw new FileCannotBeReadException();
         }
-        if(string == null) throw new FileIsEmptyException();
+        if(string.isEmpty()) throw new FileIsEmptyException();
         return string;
     }
 
