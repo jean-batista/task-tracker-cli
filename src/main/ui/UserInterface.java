@@ -99,7 +99,7 @@ public class UserInterface {
                         System.out.println(noTasks);
                         break;
                     }
-                    list.forEach(System.out::print);
+                    list.forEach(System.out::println);
                     break;
                 case 7:
                     System.out.println("Todas as tarefas em progresso: ");
@@ -109,7 +109,7 @@ public class UserInterface {
                         System.out.println(noTasks);
                         break;
                     }
-                    list.forEach(System.out::print);
+                    list.forEach(System.out::println);
                     break;
                 case 8:
                     System.out.println("Todas as tarefas concluídas");
@@ -119,7 +119,7 @@ public class UserInterface {
                         System.out.println(noTasks);
                         break;
                     }
-                    list.forEach(System.out::print);
+                    list.forEach(System.out::println);
                     break;
                 default:
                     if(option != 0) System.out.println("Entrada inválida, tente novamente");
