@@ -16,7 +16,7 @@ public class UiTemplateBuilder {
         this.taskStatusMenu = taskStatusMenu;
     }
 
-    public String buidTitle() {
+    public String buildTitle() {
         return title.build();
     }
 

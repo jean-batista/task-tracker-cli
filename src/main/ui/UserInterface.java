@@ -11,7 +11,7 @@ import main.exceptions.TaskNotFoundException;
 import main.exceptions.response.ExceptionResponse;
 import main.model.entities.Task;
 import main.model.enums.TaskStatus;
-import main.utils.ScannerUtils;
+import static main.utils.ScannerUtils.clearBuffer;;
 
 public class UserInterface {
     
@@ -26,25 +26,19 @@ public class UserInterface {
     public void run() {
 
         Scanner input = new Scanner(System.in);
-        ScannerUtils scannerUtils = new ScannerUtils();
-
-        String title = builder.buidTitle();
-        String mainMenu = builder.buildMainMenuScreen();
-        String taskStatusMenu = builder.buildTaskStatusMenu();
 
         int option = -1;
         Task task;
         List<Task> list;
         String NO_TASKS = "Nenhuma tarefa encontrada";
 
-        System.out.println(title);
+        System.out.println(builder.buildTitle());
 
         while(option != 0) {
             try {
-                task = new Task();
-                System.out.print(mainMenu);
+                System.out.print(builder.buildMainMenuScreen());
                 option = input.nextInt();
-                scannerUtils.clearBuffer(input);
+                clearBuffer(input);
                 System.out.println();
                 switch (option) {
                     // Encerramento do programa
@@ -53,12 +47,13 @@ public class UserInterface {
                         break;
                     // Criar uma tarefa
                     case 1:
+                        task = new Task();
                         System.out.print("Digite a descrição da tarefa: ");
                         task.setDescription(input.nextLine());
                         System.out.println("Defina o status da tarefa: ");
-                        System.out.print(taskStatusMenu);
+                        System.out.print(builder.buildTaskStatusMenu());
                         task.setStatus(TaskStatus.fromCode(input.nextInt()));
-                        scannerUtils.clearBuffer(input);
+                        clearBuffer(input);
                         task = controller.createTask(task);
                         System.out.println();
                         System.out.println(task);
@@ -68,11 +63,11 @@ public class UserInterface {
                     case 2:
                         System.out.print("Digite o id da tarefa: ");
                         task = controller.findTaskById(input.nextLong());
-                        scannerUtils.clearBuffer(input);
+                        clearBuffer(input);
                         System.out.print("Digite a descrição da tarefa: ");
                         task.setDescription(input.nextLine());
                         System.out.println("Defina o status da tarefa: ");
-                        System.out.print(taskStatusMenu);
+                        System.out.print(builder.buildTaskStatusMenu());
                         task.setStatus(TaskStatus.fromCode(input.nextInt()));
                         task = controller.updateTask(task);
                         System.out.println();
@@ -83,7 +78,7 @@ public class UserInterface {
                     case 3:
                         System.out.print("Digite o id da tarefa: ");
                         controller.deleteTask(input.nextLong());
-                        scannerUtils.clearBuffer(input);
+                        clearBuffer(input);
                         System.out.println();
                         System.out.println("Tarefa excluida com sucesso!");
                         break;
@@ -91,7 +86,7 @@ public class UserInterface {
                     case 4:
                         System.out.print("Digite o id da tarefa: ");
                         task = controller.findTaskById(input.nextLong());
-                        scannerUtils.clearBuffer(input);
+                        clearBuffer(input);
                         System.out.println();
                         System.out.print(task);
                         break;
@@ -133,13 +128,12 @@ public class UserInterface {
                 System.out.println();
             } catch(Exception e) {
                 System.out.println();
-                ExceptionResponse response = new ExceptionResponse(e);
-                if(e.getClass() == InputMismatchException.class) response = new ExceptionResponse(new InvalidInputException());
-                if(e.getClass() == IllegalArgumentException.class) response = new ExceptionResponse(new InvalidCodeException());
-                if(e.getClass() == TaskNotFoundException.class) 
-                    response = new ExceptionResponse(new TaskNotFoundException("Tarefa não encontrada"));
-                System.out.println(response);
-                scannerUtils.clearBuffer(input);
+                Exception exception = e;
+                if(e.getClass() == InputMismatchException.class) exception = new InvalidInputException();
+                if(e.getClass() == IllegalArgumentException.class) exception = new InvalidCodeException();
+                if(e.getClass() == TaskNotFoundException.class) exception = new TaskNotFoundException();
+                System.out.println(new ExceptionResponse(exception));
+                clearBuffer(input);
             }
         }
 

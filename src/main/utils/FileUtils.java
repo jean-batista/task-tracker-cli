@@ -37,7 +37,7 @@ public class FileUtils {
             List<String> lines = Files.readAllLines(DATABASE_COMPLETE_PATH);
             if(!lines.isEmpty()) {
                 for(String line : lines) {
-                    string += line;
+                    string += line.trim();
                 }
             }
         } catch(IOException e) {
