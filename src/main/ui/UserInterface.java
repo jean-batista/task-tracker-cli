@@ -131,7 +131,7 @@ public class UserInterface {
                 Exception exception = e;
                 if(e.getClass() == InputMismatchException.class) exception = new InvalidInputException();
                 if(e.getClass() == IllegalArgumentException.class) exception = new InvalidCodeException();
-                if(e.getClass() == TaskNotFoundException.class) exception = new TaskNotFoundException();
+                if(e.getClass() == TaskNotFoundException.class) exception = new TaskNotFoundException("Tarefa não encontrada");
                 System.out.println(new ExceptionResponse(exception));
                 clearBuffer(input);
             }
