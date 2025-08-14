@@ -36,7 +36,7 @@ public class MainMenuScreen {
             "Opção 04: Buscar uma tarefa pelo id",
             "Opção 05: Buscar todas as tarefas",
             "Opção 06: Buscar todas as tarefas a fazer",
-            "Opção 07: Bucas todas as tarefas em progresso",
+            "Opção 07: Buscar todas as tarefas em progresso",
             "Opção 08: Buscar todas as tarefas concluídas"
         );
     }

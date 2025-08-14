@@ -91,13 +91,15 @@ public class Task {
 
     @Override
     public String toString() {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         StringBuilder sb = new StringBuilder();
-        sb.append("Task id: ").append(this.id).append("\n");
-        sb.append("Task description: ").append(this.description).append("\n");
-        sb.append("Task status: ").append(this.status).append("\n");
-        sb.append("Created at: ").append(dtf.format(createdAt)).append("\n");
-        sb.append("Updated at: ").append(dtf.format(updatedAt)).append("\n");
+        sb.append("Id da tarefa: ").append(this.id).append("\n");
+        sb.append("Descrição da tarefa: ").append(this.description).append("\n");
+        if(this.status == TaskStatus.TODO) sb.append("Status da tarefa: ").append("A fazer").append("\n");
+        if(this.status == TaskStatus.IN_PROGRESS) sb.append("Status da tarefa: ").append("Em progresso").append("\n");
+        if(this.status == TaskStatus.DONE) sb.append("Status da tarefa: ").append("Concluído").append("\n");
+        sb.append("Criado em: ").append(dtf.format(createdAt)).append("\n");
+        sb.append("Atualizado em: ").append(dtf.format(updatedAt)).append("\n");
         return sb.toString();
     }
 
