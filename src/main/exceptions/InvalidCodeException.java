@@ -2,7 +2,7 @@ package main.exceptions;
 
 public class InvalidCodeException extends RuntimeException {
     public InvalidCodeException() {
-        super("Código inválido");
+        super("Invalid code");
     }
 
     public InvalidCodeException(String message) {

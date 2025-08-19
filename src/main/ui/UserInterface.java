@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import main.controller.TaskController;
+import main.exceptions.FileCannotBeReadException;
 import main.exceptions.InvalidCodeException;
 import main.exceptions.InvalidInputException;
 import main.exceptions.TaskNotFoundException;
@@ -129,10 +130,11 @@ public class UserInterface {
             } catch(Exception e) {
                 System.out.println();
                 Exception exception = e;
-                if(e.getClass() == InputMismatchException.class) exception = new InvalidInputException();
-                if(e.getClass() == IllegalArgumentException.class) exception = new InvalidCodeException();
+                if(e.getClass() == InputMismatchException.class) exception = new InvalidInputException("Entrada inválida");
+                if(e.getClass() == IllegalArgumentException.class) exception = new InvalidCodeException("Código inválido");
                 if(e.getClass() == TaskNotFoundException.class) exception = new TaskNotFoundException("Tarefa não encontrada");
-                System.out.println(new ExceptionResponse(exception));
+                if(e.getClass() == ArrayIndexOutOfBoundsException.class) exception = new FileCannotBeReadException("Não foi possível ler o arquivo json");
+                System.out.println(new ExceptionResponse(e, exception));
                 clearBuffer(input);
             }
         }

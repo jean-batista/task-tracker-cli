@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class ExceptionResponse {
     
+    private String originalMessage;
     private String message;
     private String type;
     private LocalDateTime errorTime;
@@ -13,6 +14,21 @@ public class ExceptionResponse {
         this.message = exception.getMessage();
         this.type = exception.getClass().getSimpleName();
         this.errorTime = LocalDateTime.now();
+    }
+
+    public ExceptionResponse(Exception originalException, Exception exception) {
+        this.originalMessage = originalException.getMessage();
+        this.message = exception.getMessage();
+        this.type = exception.getClass().getSimpleName();
+        this.errorTime = LocalDateTime.now();
+    }
+
+        public String getOriginalMessage() {
+        return originalMessage;
+    }
+
+    public void setOriginalMessage(String originalMessage) {
+        this.originalMessage = originalMessage;
     }
 
     public String getMessage() {
@@ -84,6 +100,9 @@ public class ExceptionResponse {
         sb.append("Tipo de erro: ").append(type).append("\n");
         sb.append("Momento do erro: ").append(dtf.format(errorTime)).append("\n");
         sb.append("Mensagem de erro: ").append(message).append("\n");
+        if(!(originalMessage == null)) {
+            if(!(originalMessage == message)) sb.append("Mensagem original: ").append(originalMessage).append("\n");
+        }
         return sb.toString();
     }
 

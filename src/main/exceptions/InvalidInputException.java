@@ -2,7 +2,7 @@ package main.exceptions;
 
 public class InvalidInputException extends RuntimeException {
     public InvalidInputException() {
-        super("Entrada inválida");
+        super("Invalid input");
     }
     
     public InvalidInputException(String message) {

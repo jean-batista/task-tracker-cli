@@ -40,6 +40,7 @@ public class FileUtils {
                     string += line.trim();
                 }
             }
+            if(!string.isBlank()) checkJsonFile(string);
         } catch(IOException e) {
             throw new FileCannotBeReadException();
         }
@@ -73,6 +74,43 @@ public class FileUtils {
             bw.write("");
         } catch(IOException e) {
             throw new FileCannotBeWrittenException();
+        }
+    }
+
+    private void checkJsonFile(String string) {
+        if(string.charAt(0) != '{' && string.charAt(0) != '[') {
+            throw new FileCannotBeReadException("Invalid json file");
+        }
+        if(string.charAt(0) == '{' ) {
+            if(string.charAt(string.length() - 1) != '}') {
+                throw new FileCannotBeReadException("Invalid json file");
+            }
+        }
+        if(string.charAt(0) == '[') {
+            if(string.charAt(string.length() - 1) != ']') {
+                throw new FileCannotBeReadException("Invalid json file");
+            }
+            if(string.charAt(1) != '{') {
+                throw new FileCannotBeReadException("Invalid json file");
+            }
+            if(string.charAt(string.length() - 2) != '}') {
+                throw new FileCannotBeReadException("Invalid json file");
+            }
+        }
+        if(!string.contains("\"id\"")) {
+            throw new FileCannotBeReadException("Field id is not present");
+        }
+        if(!string.contains("\"description\"")) {
+            throw new FileCannotBeReadException("Field description is not present");
+        }
+        if(!string.contains("\"status\"")) {
+            throw new FileCannotBeReadException("Field status is not present");
+        }
+        if(!string.contains("\"createdAt\"")) {
+            throw new FileCannotBeReadException("Filed createdAt is not present");
+        }
+        if(!string.contains("\"updatedAt\"")) {
+            throw new FileCannotBeReadException("Field updatedAt is not present");
         }
     }
 
