@@ -8,6 +8,7 @@ public class TestRunner {
         this.config = config;
     }
     
+    // Executa todos os testes
     public void run() {
         config.createTaskRepositoryTestRunner().run();
     }

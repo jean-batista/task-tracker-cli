@@ -4,6 +4,7 @@ import main.ui.screens.MainMenuScreen;
 import main.ui.screens.TaskStatusMenu;
 import main.ui.screens.Title;
 
+// Classe responsável por gerenciar as telas
 public class UiTemplateBuilder {
     
     private Title title;

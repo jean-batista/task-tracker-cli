@@ -1,23 +1,20 @@
 package main.config;
 
+import main.controller.DatabaseController;
 import main.controller.TaskController;
-import main.repositories.TaskRepository;
-import main.repositories.impl.TaskRepositoryImpl;
-import main.services.TaskService;
-import main.services.impl.TaskServiceImpl;
+import main.services.ConfigurationService;
 import main.ui.UiTemplateBuilder;
 import main.ui.UserInterface;
-import main.utils.FileUtils;
 
 public class AppConfig {
-    
+
+    // Injeta todas as dependências necessárias para a aplicação
     public UserInterface createUserInterface() {
-        FileUtils fileUtils = new FileUtils();
-        TaskRepository repository = new TaskRepositoryImpl(fileUtils);
-        TaskService service = new TaskServiceImpl(repository);
-        TaskController controller = new TaskController(service);
-        UiTemplateBuilder builder = new UiTemplateBuilderConfig().createUiTemplateBuilder();
-        return new UserInterface(controller, builder);
-    }
+        ConfigurationService configurationService = Config.creatConfigurationService();
+        DatabaseController databaseController = Config.createDatabaseConfig(configurationService);
+        TaskController taskController = Config.createTaskConfig(configurationService);
+        UiTemplateBuilder uiTemplateBuilder = Config.createUiTemplateBuilderConfig();
+        return new UserInterface(databaseController, taskController, uiTemplateBuilder);
+    } 
 
 }

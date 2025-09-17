@@ -5,6 +5,7 @@ import java.util.List;
 
 import static main.ui.screens.utils.ScreenUtils.*;
 
+// Classe responsável por construir a tela de menu
 public class MainMenuScreen {
     
     public String build() {
@@ -37,7 +38,9 @@ public class MainMenuScreen {
             "Opção 05: Buscar todas as tarefas",
             "Opção 06: Buscar todas as tarefas a fazer",
             "Opção 07: Buscar todas as tarefas em progresso",
-            "Opção 08: Buscar todas as tarefas concluídas"
+            "Opção 08: Buscar todas as tarefas concluídas",
+            "Opção 09: Ver configurações do banco de dados",
+            "Opção 10: Alterar configurações do arquivo de dados"
         );
     }
 

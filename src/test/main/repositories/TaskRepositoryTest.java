@@ -10,6 +10,7 @@ import main.model.enums.TaskStatus;
 import main.repositories.TaskRepository;
 import test.main.utils.TestUtils;
 
+// Classe responsável por realizar os testes de TaskRepository
 public class TaskRepositoryTest {
 
     private TestUtils utils;
@@ -22,11 +23,14 @@ public class TaskRepositoryTest {
 
     Task task;
 
+    // Método executado antes de cada teste
     private void beforeEach() {
         utils.deleteTestDatabase();
         task = new Task(null, "test01", TaskStatus.TODO, null, null);
     }
     
+    // (1)
+    // Teste do método save
     public void save() {
         beforeEach();
 
@@ -46,6 +50,8 @@ public class TaskRepositoryTest {
         System.out.println("TaskRepository save method is ok");
     }
 
+    // (2)
+    // Teste do método update
     public void update() {
         beforeEach();
 
@@ -80,6 +86,8 @@ public class TaskRepositoryTest {
         System.out.println("TaskRepository update method is ok");
     }
 
+    // (4)
+    // Teste do método findById
     public void findById() {
         beforeEach();
 
@@ -110,6 +118,8 @@ public class TaskRepositoryTest {
         System.out.println("TaskRepository findById method is ok");
     }
 
+    // (5)
+    // Teste do método findAll
     public void findAll() {
         beforeEach();
 
@@ -143,6 +153,8 @@ public class TaskRepositoryTest {
         System.out.println("TaskRepository findAll method is ok");
     }
 
+    // (6)
+    // Teste do método findAllTodo
     public void findAllTodo() {
         beforeEach();
 
@@ -175,6 +187,8 @@ public class TaskRepositoryTest {
         System.out.println("TaskRepository findAllTodo method is ok");
     }
 
+    // (7)
+    // Teste do método findAllInProgress
     public void findAllInProgress() {
         beforeEach();
 
@@ -207,6 +221,8 @@ public class TaskRepositoryTest {
         System.out.println("TaskRepository findAllInProgress method is ok");
     }
 
+    // (8)
+    // Teste do método findAllDone
     public void findAllDone() {
         beforeEach();
 
@@ -239,6 +255,8 @@ public class TaskRepositoryTest {
         System.out.println("TaskRepository findAllDone method is ok");
     }
 
+    // (3)
+    // Teste do método delete
     public void delete() {
         beforeEach();
 

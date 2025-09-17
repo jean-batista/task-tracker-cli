@@ -2,6 +2,7 @@ package main.ui.screens;
 
 import static main.ui.screens.utils.ScreenUtils.*;
 
+// Classe responsável por construir a tela título
 public class Title {
     
     public String build() {

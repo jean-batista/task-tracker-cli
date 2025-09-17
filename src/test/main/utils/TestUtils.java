@@ -6,14 +6,18 @@ import java.util.List;
 
 import main.model.entities.Task;
 import main.model.enums.TaskStatus;
+import test.main.config.Paths;
 
+// Classe que contém métodos utilitários
 public class TestUtils {
 
+    // Método responsável por excluir o arquivo de dados de teste
     public void deleteTestDatabase() {
-        File file = new File("src/test/resources/database/databasetest.json");
+        File file = new File(Paths.DATABASE_COMPLETE_PATH.toString());
         file.delete();
     }
 
+    // Método responsável por mockar uma lista de Task
     public List<Task> createTaskList(int quantity, String description) {
         Task task;
         List<Task> list = new ArrayList<>();

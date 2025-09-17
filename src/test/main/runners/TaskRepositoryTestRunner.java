@@ -2,6 +2,7 @@ package test.main.runners;
 
 import test.main.repositories.TaskRepositoryTest;
 
+// Classe responsável por executar todos os métodos do TaskRepositoryTest
 public class TaskRepositoryTestRunner {
     
     private TaskRepositoryTest taskRepositoryTest;
@@ -10,6 +11,7 @@ public class TaskRepositoryTestRunner {
         this.taskRepositoryTest = taskRepositoryTest;
     }
 
+    // Executa todos os métodos de teste
     public void run() {
         taskRepositoryTest.save();
         taskRepositoryTest.update();

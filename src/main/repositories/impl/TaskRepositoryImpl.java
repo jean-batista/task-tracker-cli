@@ -6,31 +6,35 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import main.database.DatabaseManager;
 import main.exceptions.TaskException;
 import main.exceptions.TaskNotFoundException;
 import main.mapper.TaskMapper;
 import main.model.entities.Task;
 import main.model.enums.TaskStatus;
 import main.repositories.TaskRepository;
-import main.utils.FileUtils;
 
+/**
+ * Classe responsável por realizar as operações CRUD
+ * Realiza as operações diretamente com o arquivo de dados
+*/
 public class TaskRepositoryImpl implements TaskRepository {
 
-    private FileUtils fileUtils;
+    private DatabaseManager databaseManager;
 
-    public TaskRepositoryImpl(FileUtils fileUtils) {
-        this.fileUtils = fileUtils;
+    public TaskRepositoryImpl(DatabaseManager databaseManager) {
+        this.databaseManager = databaseManager;
     }
 
     @Override
     public Task save(Task task) {
         if(task == null) throw new TaskException("The task is null");
-        fileUtils.createDirectoryAndDatabaseFile();
+        databaseManager.createDirectoryAndDatabaseFile();
         task.setId(nextId());
         LocalDateTime created = LocalDateTime.now();
         task.setCreatedAt(created);
         task.setUpdatedAt(created);
-        fileUtils.writeDatabaseFile(task);
+        databaseManager.writeDatabaseFile(task);
         return task;
     }
 
@@ -42,9 +46,9 @@ public class TaskRepositoryImpl implements TaskRepository {
         entity.setCreatedAt(task.getCreatedAt());
         entity.setUpdatedAt(LocalDateTime.now());
         tasks.set(tasks.indexOf(task), entity);
-        fileUtils.clearDatabaseFile();
+        databaseManager.clearDatabaseFile();
         for(Task t : tasks) {
-            fileUtils.writeDatabaseFile(t);
+            databaseManager.writeDatabaseFile(t);
         }
         return entity;
     }
@@ -54,9 +58,9 @@ public class TaskRepositoryImpl implements TaskRepository {
         List<Task> tasks = findAll();
         Task task = findById(id).orElseThrow(TaskNotFoundException::new);
         tasks.remove(task);
-        fileUtils.clearDatabaseFile();
+        databaseManager.clearDatabaseFile();
         for(Task t : tasks) {
-            fileUtils.writeDatabaseFile(t);
+            databaseManager.writeDatabaseFile(t);
         }
     }
 
@@ -68,8 +72,8 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     @Override
     public List<Task> findAll() {
-        fileUtils.createDirectoryAndDatabaseFile();
-        String json = fileUtils.readDatabaseFile();
+        databaseManager.createDirectoryAndDatabaseFile();
+        String json = databaseManager.readDatabaseFile();
         if(json.isBlank()) return new ArrayList<>();
         List<Task> tasks = TaskMapper.parseJsonListToTaskList(json);
         return tasks;

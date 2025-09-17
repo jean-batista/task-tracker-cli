@@ -5,6 +5,7 @@ import java.util.List;
 
 import static main.ui.screens.utils.ScreenUtils.*;
 
+// Classe responsável por construir a tela escolha do status da Task
 public class TaskStatusMenu {
     
     public String build() {

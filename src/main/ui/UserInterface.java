@@ -1,9 +1,13 @@
 package main.ui;
 
+import static main.ui.screens.utils.ScannerUtils.clearBuffer;
+
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
+import main.controller.DatabaseController;
 import main.controller.TaskController;
 import main.exceptions.FileCannotBeReadException;
 import main.exceptions.InvalidCodeException;
@@ -12,14 +16,16 @@ import main.exceptions.TaskNotFoundException;
 import main.exceptions.response.ExceptionResponse;
 import main.model.entities.Task;
 import main.model.enums.TaskStatus;
-import static main.utils.ScannerUtils.clearBuffer;;
 
+// Classe responsável pela interface do usuário
 public class UserInterface {
     
+    private DatabaseController databaseController;
     private TaskController controller;
     private UiTemplateBuilder builder;
 
-    public UserInterface(TaskController controller, UiTemplateBuilder builder) {
+    public UserInterface(DatabaseController databaseController, TaskController controller, UiTemplateBuilder builder) {
+        this.databaseController = databaseController;
         this.controller = controller;
         this.builder = builder;
     }
@@ -31,6 +37,7 @@ public class UserInterface {
         int option = -1;
         Task task;
         List<Task> list;
+        Map<String, String> properties;
         String NO_TASKS = "Nenhuma tarefa encontrada";
 
         System.out.println(builder.buildTitle());
@@ -122,6 +129,25 @@ public class UserInterface {
                         list = controller.findAllTasksDone();
                         if(list.isEmpty()) System.out.println(NO_TASKS);
                         list.forEach(System.out::println);
+                        break;
+                    case 9:
+                        System.out.println("Configurações atuais do banco de dados:");
+                        System.out.println();
+                        properties = databaseController.getDatabaseProperties();
+                        properties.forEach((key, value) -> System.out.println(key + value));
+                        break;
+                    case 10:
+                        System.out.println("Configurações atuais do banco de dados:");
+                        System.out.println();
+                        properties = databaseController.getDatabaseProperties();
+                        properties.forEach((key, value) -> System.out.println(key + value));
+                        System.out.println();
+                        System.out.print("Digite o novo nome do banco de dados (Deixe em branco para usar o padrão): ");
+                        String databaseName = input.nextLine();
+                        System.out.print("Digite o caminho do banco de dados (Deixe em branco para usar o padrão): ");
+                        String databasePath = input.nextLine();
+                        databaseController.configureDatabase(databaseName, databasePath);
+                        System.out.println("Banco de dados configurado com sucesso!");
                         break;
                     default:
                         System.out.println(new ExceptionResponse(new InvalidCodeException()));

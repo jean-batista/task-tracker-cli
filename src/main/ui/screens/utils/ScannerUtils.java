@@ -1,4 +1,4 @@
-package main.utils;
+package main.ui.screens.utils;
 
 import java.util.Scanner;
 
